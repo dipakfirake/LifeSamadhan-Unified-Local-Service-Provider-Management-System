@@ -488,20 +488,141 @@ New customers and service providers can register through the platform's registra
 
 ---
 
+## OTP-Based Service Verification & SMTP Email System
+
+The platform implements a secure OTP (One-Time Password) verification system to prevent unauthorized service starts. OTPs are delivered to customers via **SMTP email** using Gmail's App Password authentication.
+
+### How It Works
+
+```
+Customer books service
+        │
+        ▼
+┌─────────────────────────────┐
+│  Auto-Assignment Engine     │
+│  Finds best provider by:    │
+│  • Matching skills          │
+│  • Matching location        │
+│  • Verified & available     │
+│  • Highest rating           │
+└──────────────┬──────────────┘
+               │
+        ▼                          ▼
+┌──────────────────┐    ┌─────────────────────────┐
+│ 6-digit OTP      │    │ SMTP Email sent to       │
+│ generated        │    │ customer with OTP         │
+│ (100000-999999)  │    │ via Gmail SMTP (TLS 587)  │
+│ stored in DB     │    │ HTML formatted email      │
+└──────────────────┘    └─────────────────────────┘
+               │
+        Provider accepts assignment
+               │
+        Provider enters OTP from customer
+               │
+        ▼
+┌──────────────────────────────┐
+│  OTP Verified?               │
+│  YES → Status = STARTED      │
+│  NO  → "Invalid OTP" error   │
+└──────────────────────────────┘
+```
+
+### SMTP Email Configuration
+
+The system uses **Gmail SMTP** with App Password for sending OTP emails:
+
+```json
+// appsettings.json (.NET backend)
+{
+  "EmailSettings": {
+    "Email": "your_email@gmail.com",
+    "Password": "your_gmail_app_password",
+    "Host": "smtp.gmail.com",
+    "Port": 587,
+    "EnableSsl": true
+  }
+}
+```
+
+> **Note:** You need to generate a Gmail App Password (not your regular Gmail password).  
+> Go to Google Account → Security → 2-Step Verification → App Passwords → Generate.
+
+### OTP Email Content
+
+When a provider is assigned, the customer receives an HTML email containing:
+
+- Service verification header
+- Personalized greeting with customer name
+- **Bold 6-digit OTP code**
+- Instructions to share OTP with the provider upon arrival
+- Branded footer from LifeSamadhan Team
+
+### Backend Implementation Details
+
+| Component | File | Responsibility |
+|---|---|---|
+| `ServiceAssignmentService` | `Services/ServiceAssignmentService.cs` | Generates 6-digit OTP, triggers email + notification |
+| `EmailService` | `Services/EmailService.cs` | Sends HTML emails via SMTP (SmtpClient) |
+| `IEmailService` | `Services/IEmailService.cs` | Email service interface |
+| `ProviderController` | `Controllers/ProviderController.cs` | `/start` endpoint verifies OTP before starting service |
+| `NotificationService` | `Services/NotificationService.cs` | Sends real-time SignalR notification to provider |
+
+---
+
+## Service Lifecycle Workflow
+
+The complete lifecycle of a service request flows through these statuses:
+
+```
+PENDING → ASSIGNED → ACCEPTED → STARTED → COMPLETED → PAID
+                        │
+                    REJECTED → CANCELLED
+```
+
+| Step | Action | Status Change | Triggered By |
+|---|---|---|---|
+| 1 | Customer books a service | `PENDING` | Customer |
+| 2 | System auto-assigns best provider | `ASSIGNED` | Auto-Assignment Engine |
+| 3 | OTP email sent to customer | — | SMTP EmailService |
+| 4 | Real-time notification sent to provider | — | SignalR / WebSocket |
+| 5 | Provider accepts the assignment | `ACCEPTED` | Provider |
+| 6 | Provider enters customer's OTP | `STARTED` (if valid) | Provider |
+| 7 | Provider marks service as done | `COMPLETED` | Provider |
+| 8 | Amount calculated (hours × hourly rate) | — | System |
+| 9 | Customer pays via Razorpay | `PAID` | Customer |
+| 10 | Customer rates the service (1–5 ★) | — | Customer |
+
+### Auto-Assignment Logic
+
+The assignment engine selects the best provider by:
+
+1. **Skill match** — provider has an approved skill for the requested service
+2. **Location match** — provider operates in the requested city (active, within effective dates)
+3. **Verified** — provider account is verified by admin
+4. **Available** — provider's availability status is `AVAILABLE`
+5. **Highest rated** — among all eligible providers, the one with the highest average rating is selected
+
+If no eligible provider is found, the request remains in `PENDING` status.
+
+---
+
 ## Key Highlights
 
 - **Dual-backend architecture** — swap between ASP.NET Core and Spring Boot without touching the frontend
 - **Auto-assignment engine** — automatically assigns the best available provider based on skills, location, and ratings
-- **OTP verification** — ensures only authorized providers start the service
-- **Razorpay integration** — secure online payments after service completion
-- **Real-time notifications** — SignalR (for .NET) and WebSocket/STOMP (for Spring Boot)
+- **OTP verification via SMTP** — 6-digit OTP generated per assignment, emailed to customer via Gmail SMTP, verified by provider before starting service
+- **Razorpay integration** — secure online payments after service completion with order creation and payment verification
+- **Real-time notifications** — SignalR (for .NET) and WebSocket/STOMP (for Spring Boot) push notifications
+- **Hourly billing** — final amount auto-calculated based on provider's hourly rate × service duration
 - **Role-based access control** — JWT authentication with admin, customer, and provider roles
-- **Timed cleanup service** — background job that auto-cancels unattended requests
-- **Email notifications** — sends OTP and status updates via SMTP
+- **Timed cleanup service** — background hosted service that auto-cancels unattended requests after timeout
+- **Email notifications** — HTML-formatted emails with OTP and service status updates via SMTP
 - **Swagger/OpenAPI** — interactive API documentation for both backends
+- **Provider verification** — admin must verify providers before they can receive assignments
 
 ---
 
 ## License
 
 This project was developed as part of an academic final project (Team 25). See `TEAM_25_SRS_Final_Project.pdf` for the complete Software Requirements Specification.
+
