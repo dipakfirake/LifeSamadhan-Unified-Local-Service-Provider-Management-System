@@ -111,6 +111,116 @@ Built as a microservice-style architecture with **two interchangeable backends**
               └─────────────────┘
 ```
 
+### How Backend Switching Works
+
+The same React frontend works with **both backends** without any code changes. Switching is done via a single environment variable:
+
+```env
+# Frontend/.env
+
+# Use ASP.NET Core backend (SignalR for real-time)
+VITE_BACKEND_TYPE=DOTNET
+
+# Use Spring Boot backend (STOMP WebSocket for real-time)
+# VITE_BACKEND_TYPE=SPRINGBOOT
+```
+
+**What changes when you switch:**
+
+| Aspect | ASP.NET Core (.NET 8) | Spring Boot (Java 17) |
+|---|---|---|
+| **API Port** | `http://localhost:5055` | `http://localhost:8080` |
+| **Real-time Protocol** | SignalR (WebSocket) | STOMP over SockJS |
+| **Real-time Endpoint** | `/hubs/notifications` | `/ws` |
+| **ORM** | Entity Framework Core (Pomelo MySQL) | Spring Data JPA (Hibernate) |
+| **Auth** | JWT Bearer (Microsoft.AspNetCore.Authentication) | JWT (jjwt + Spring Security) |
+| **Email** | SmtpClient (System.Net.Mail) | Spring Boot Starter Mail |
+| **Payment** | Razorpay .NET SDK | Razorpay Java SDK |
+| **API Docs** | Swagger (Swashbuckle) | Swagger (SpringDoc OpenAPI) |
+| **Background Jobs** | IHostedService (TimedCleanupService) | @Scheduled (AssignmentCleanupScheduler) |
+| **DB Schema** | EF Core Migrations (auto) | Hibernate ddl-auto (auto) |
+
+**What stays the same across both backends:**
+- ✅ Same MySQL database (`lifesamadhan_db_v2`)
+- ✅ Same React frontend (zero changes)
+- ✅ Same REST API endpoints and JSON response formats
+- ✅ Same business logic (service booking, assignment, OTP, payment, rating)
+- ✅ Same user roles and JWT authentication flow
+- ✅ Same Razorpay payment integration
+
+---
+
+## Real-Time Notification System
+
+Both backends push real-time notifications to the frontend, but use different protocols. The frontend has an **abstraction layer** (`notificationService.js`) that automatically selects the right client based on `VITE_BACKEND_TYPE`.
+
+### ASP.NET Core → SignalR
+
+```
+┌──────────────┐     SignalR Hub      ┌─────────────────────┐
+│   Backend    │ ──────────────────▶  │  Frontend           │
+│  (.NET 8)    │   /hubs/notifications│  @microsoft/signalr │
+│              │   WebSocket (auto)   │  HubConnectionBuilder│
+│ NotificationService.cs              │  .withAutomaticReconnect()
+│ NotificationHub.cs                  │  Listens: "ReceiveNotification"
+└──────────────┘                      └─────────────────────┘
+```
+
+- **Server:** `NotificationHub.cs` → sends targeted notifications to specific users via `Clients.User(userId).SendAsync("ReceiveNotification", message)`
+- **Client:** `signalr.js` → connects with JWT access token, listens for `ReceiveNotification` event
+- **Auth:** JWT token passed via `accessTokenFactory` in connection options
+- **Reconnection:** Built-in `withAutomaticReconnect()` for resilient connections
+
+### Spring Boot → STOMP over SockJS
+
+```
+┌──────────────┐   STOMP / SockJS     ┌─────────────────────┐
+│   Backend    │ ──────────────────▶  │  Frontend           │
+│ (Spring Boot)│   /ws endpoint       │  sockjs-client      │
+│              │   Message Broker     │  stompjs             │
+│ WebSocketConfig.java                │  Subscribes to:      │
+│ SimpMessagingTemplate               │  /topic/user-{id}    │
+└──────────────┘                      │  /topic/provider-{id}│
+                                      │  /topic/customer-{id}│
+                                      └─────────────────────┘
+```
+
+- **Server:** `WebSocketConfig.java` → configures STOMP broker with `/topic` and `/queue` prefixes, SockJS endpoint at `/ws`
+- **Client:** `springboot-websocket.js` → connects with JWT in STOMP headers, subscribes to user-specific topics
+- **Topics:** Role-based subscriptions:
+  - `/topic/user-{userId}` — universal notifications (all roles)
+  - `/topic/provider-{providerId}` — provider-specific updates (new assignments)
+  - `/topic/customer-{customerId}` — customer-specific updates (request status)
+  - `/topic/notifications` — broadcast notifications
+
+### Frontend Abstraction Layer
+
+```javascript
+// notificationService.js — auto-switches based on backend type
+const type = import.meta.env.VITE_BACKEND_TYPE || 'SPRINGBOOT';
+this.service = (type === 'DOTNET') ? signalRService : springBootService;
+```
+
+| File | Purpose |
+|---|---|
+| `services/notificationService.js` | Abstraction layer — reads `VITE_BACKEND_TYPE`, delegates to correct service |
+| `services/signalr.js` | SignalR client for .NET backend (`@microsoft/signalr`) |
+| `services/springboot-websocket.js` | STOMP/SockJS client for Spring Boot (`sockjs-client` + `stompjs`) |
+| `components/common/NotificationManager.jsx` | UI component — connects on login, shows toast notifications |
+
+### Vite Proxy Configuration
+
+The Vite dev server proxies both API calls and WebSocket connections to the active backend:
+
+```javascript
+// vite.config.js
+proxy: {
+  '/api':  { target: backendUrl, changeOrigin: true },
+  '/ws':   { target: backendUrl, ws: true },          // Spring Boot STOMP
+  '/hubs': { target: backendUrl, ws: true }            // .NET SignalR
+}
+```
+
 ---
 
 ## Project Structure
