@@ -1,0 +1,2231 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R 9 0 R 11 0 R 13 0 R 15 0 R 17 0 R 19 0 R 21 0 R 23 0 R 25 0 R 27 0 R 29 0 R 31 0 R 33 0 R 35 0 R 37 0 R 39 0 R] /Count 18 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Length 2409 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+(# LifeSamadhan Interview Questions and Answers) Tj
+T*
+() Tj
+T*
+(Generated on: 2026-04-29) Tj
+T*
+() Tj
+T*
+(This document contains the interview-style questions and answers discussed for the) Tj
+T*
+(LifeSamadhan project. It covers project purpose, technical architecture, JWT, Razorpay, OTP,) Tj
+T*
+(SMTP, scalability, and performance handling.) Tj
+T*
+() Tj
+T*
+(Note: Real credentials such as SMTP passwords, Razorpay secrets, JWT secrets, and database) Tj
+T*
+(passwords should not be shared in interviews or committed to source control. Use) Tj
+T*
+(placeholders or environment variables.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(## 1. Explain The Full Project In Brief) Tj
+T*
+() Tj
+T*
+(### Question) Tj
+T*
+() Tj
+T*
+(Explain the full project with frontend and both backends, including all features in brief.) Tj
+T*
+() Tj
+T*
+(### Answer) Tj
+T*
+() Tj
+T*
+(LifeSamadhan is a full-stack local service booking platform. It connects customers with) Tj
+T*
+(verified local service providers and gives admins control over provider verification,) Tj
+T*
+(service categories, services, locations, and approvals.) Tj
+T*
+() Tj
+T*
+(The project has one React frontend and two backend implementations:) Tj
+T*
+() Tj
+T*
+(- React frontend) Tj
+T*
+(- Spring Boot backend) Tj
+T*
+(- ASP.NET Core .NET backend) Tj
+T*
+() Tj
+T*
+(### Frontend) Tj
+T*
+() Tj
+T*
+(The frontend is built with React, Vite, Axios, and React Router.) Tj
+T*
+() Tj
+T*
+(Main frontend features:) Tj
+T*
+() Tj
+T*
+(- Public pages: Home, About Us, Contact Us, Login, Register.) Tj
+T*
+(- JWT-based authentication.) Tj
+T*
+(- Role-based dashboards for Admin, Customer, and Service Provider.) Tj
+T*
+(- Admin can manage provider types, categories, services, locations, providers, and skill) Tj
+T*
+(approvals.) Tj
+T*
+(- Customer can search providers, book services, cancel bookings, pay online, rate providers,) Tj
+T*
+(and update profile.) Tj
+T*
+(- Provider can view assigned jobs, accept or reject jobs, start work with OTP, complete) Tj
+T*
+(jobs, and view earnings.) Tj
+T*
+(- Real-time notifications are supported using SignalR for .NET and STOMP/SockJS WebSocket) Tj
+T*
+(for Spring Boot.) Tj
+T*
+() Tj
+T*
+(### Spring Boot Backend) Tj
+T*
+() Tj
+T*
+(The Spring Boot backend is built using Java 17, Spring Boot, Spring Data JPA, Spring) Tj
+T*
+(Security, JWT, MySQL, WebSocket, SMTP, and Razorpay.) Tj
+T*
+() Tj
+T*
+(Main backend features:) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Length 2434 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+(- User registration and login.) Tj
+T*
+(- JWT authentication.) Tj
+T*
+(- Role-based authorization.) Tj
+T*
+(- Controller, service, repository architecture.) Tj
+T*
+(- MySQL database with JPA entities.) Tj
+T*
+(- Admin, customer, provider, payment, rating, service, category, location, and public APIs.) Tj
+T*
+(- OTP email using SMTP.) Tj
+T*
+(- Razorpay payment order creation and verification flow.) Tj
+T*
+(- WebSocket real-time updates.) Tj
+T*
+(- Scheduled cleanup for stale assignments.) Tj
+T*
+() Tj
+T*
+(### .NET Backend) Tj
+T*
+() Tj
+T*
+(The .NET backend is built using ASP.NET Core .NET 8, Entity Framework Core, MySQL, JWT,) Tj
+T*
+(SignalR, Razorpay, SMTP email, and Swagger.) Tj
+T*
+() Tj
+T*
+(Main backend features:) Tj
+T*
+() Tj
+T*
+(- JWT authentication and role authorization.) Tj
+T*
+(- Entity Framework Core database access.) Tj
+T*
+(- SignalR notifications.) Tj
+T*
+(- Service booking and assignment workflow.) Tj
+T*
+(- OTP generation and email sending.) Tj
+T*
+(- Razorpay payment integration.) Tj
+T*
+(- Admin provider verification and skill approval.) Tj
+T*
+(- Background cleanup for timed-out assignments.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(## 2. What Problem Is LifeSamadhan Solving?) Tj
+T*
+() Tj
+T*
+(### Question) Tj
+T*
+() Tj
+T*
+(Tell me from an interviewer point of view: what problem is it solving?) Tj
+T*
+() Tj
+T*
+(### Answer) Tj
+T*
+() Tj
+T*
+(LifeSamadhan solves the problem of finding trusted local service providers quickly and) Tj
+T*
+(safely.) Tj
+T*
+() Tj
+T*
+(In daily life, customers need services like repair, maintenance, cleaning, plumbing,) Tj
+T*
+(electrical work, and other local services. Usually, they face problems such as:) Tj
+T*
+() Tj
+T*
+(- Not knowing which provider is available nearby.) Tj
+T*
+(- Difficulty checking whether a provider is genuine.) Tj
+T*
+(- No proper booking and tracking system.) Tj
+T*
+(- No transparent pricing.) Tj
+T*
+(- No secure verification before service starts.) Tj
+T*
+(- No easy rating and feedback system.) Tj
+T*
+(- Providers also struggle to get genuine service requests in an organized way.) Tj
+T*
+() Tj
+T*
+(LifeSamadhan provides a digital platform where customers can search verified providers, book) Tj
+T*
+(services, track status, pay online, and rate service quality. Providers can manage jobs and) Tj
+T*
+(earnings, while admins can verify providers and control the service ecosystem.) Tj
+T*
+() Tj
+T*
+(### Short Interview Answer) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 2296 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+(LifeSamadhan is a service provider management and booking platform. It solves the problem of) Tj
+T*
+(unreliable and unorganized local service booking by connecting customers with verified local) Tj
+T*
+(providers based on category and location. Customers can book services, track work, pay) Tj
+T*
+(online, and give feedback, while providers and admins manage the service workflow) Tj
+T*
+(efficiently.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(## 3. How Is LifeSamadhan Different From Urban Company?) Tj
+T*
+() Tj
+T*
+(### Question) Tj
+T*
+() Tj
+T*
+(There are already many platforms like Urban Company. How is this different?) Tj
+T*
+() Tj
+T*
+(### Answer) Tj
+T*
+() Tj
+T*
+(LifeSamadhan is not trying to replace Urban Company directly. Urban Company is a large) Tj
+T*
+(public marketplace, while LifeSamadhan is designed as a customizable local service) Tj
+T*
+(management platform.) Tj
+T*
+() Tj
+T*
+(Key differences:) Tj
+T*
+() Tj
+T*
+(- LifeSamadhan can be deployed for a specific city, district, society, campus, local) Tj
+T*
+(business, or institution.) Tj
+T*
+(- It gives local admins direct control over providers, services, locations, and approvals.) Tj
+T*
+(- Provider skills can be approved or rejected by admin.) Tj
+T*
+(- Providers must be verified before they are trusted in the system.) Tj
+T*
+(- OTP is required before the provider starts service.) Tj
+T*
+(- Hourly-rate-based pricing is supported.) Tj
+T*
+(- The same application has both Spring Boot and .NET backend implementations, showing) Tj
+T*
+(technology flexibility.) Tj
+T*
+() Tj
+T*
+(### Short Interview Answer) Tj
+T*
+() Tj
+T*
+(Urban Company is a large public marketplace. LifeSamadhan is a customizable local service) Tj
+T*
+(management platform where an admin can control providers, services, locations, verification,) Tj
+T*
+(bookings, payments, and ratings for a specific local ecosystem.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(## 4. Explain The Project Technically In Programs) Tj
+T*
+() Tj
+T*
+(### Question) Tj
+T*
+() Tj
+T*
+(Help me explain it technically in programs.) Tj
+T*
+() Tj
+T*
+(### Answer) Tj
+T*
+() Tj
+T*
+(LifeSamadhan follows a full-stack architecture:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(React Frontend) Tj
+T*
+(    |) Tj
+T*
+(Axios API calls) Tj
+T*
+(    |) Tj
+T*
+(Spring Boot Controllers) Tj
+T*
+(    |) Tj
+T*
+ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 8 0 R >>
+endobj
+10 0 obj
+<< /Length 1488 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+(Service Layer) Tj
+T*
+(    |) Tj
+T*
+(Repository Layer) Tj
+T*
+(    |) Tj
+T*
+(MySQL Database) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### Frontend Flow) Tj
+T*
+() Tj
+T*
+(Main frontend files:) Tj
+T*
+() Tj
+T*
+(- `App.jsx`: Handles routes.) Tj
+T*
+(- `Login.jsx`: Handles login UI and login request.) Tj
+T*
+(- `Register.jsx`: Handles customer/provider registration.) Tj
+T*
+(- `AuthContext.jsx`: Stores logged-in user and role.) Tj
+T*
+(- `utils/api.js`: Axios instance that attaches JWT token.) Tj
+T*
+(- Admin, customer, and provider dashboards handle role-specific workflows.) Tj
+T*
+() Tj
+T*
+(Login flow:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(Login.jsx) Tj
+T*
+(    -> calls login API) Tj
+T*
+(    -> POST /api/auth/login) Tj
+T*
+(    -> receives token and role) Tj
+T*
+(    -> stores token in localStorage) Tj
+T*
+(    -> redirects user based on role) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### Backend Flow) Tj
+T*
+() Tj
+T*
+(Spring Boot uses:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(Controller -> Service -> Repository -> Database) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(Example:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(AuthController) Tj
+T*
+(    -> receives login/register request) Tj
+T*
+(UserService / PasswordService / JwtUtils) Tj
+T*
+(    -> handles business logic) Tj
+T*
+(UserRepository) Tj
+T*
+(    -> communicates with MySQL) Tj
+T*
+(User entity) Tj
+T*
+(    -> maps to users table) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### Role-Based Flow) Tj
+T*
+() Tj
+T*
+(Roles:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(ADMIN) Tj
+T*
+(CUSTOMER) Tj
+T*
+ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 10 0 R >>
+endobj
+12 0 obj
+<< /Length 1880 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+(SERVICEPROVIDER) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(Admin controls master data and verification. Customer books services. Provider accepts,) Tj
+T*
+(starts, and completes jobs.) Tj
+T*
+() Tj
+T*
+(### Short Interview Answer) Tj
+T*
+() Tj
+T*
+(Technically, LifeSamadhan is a role-based full-stack service booking system. React handles) Tj
+T*
+(the UI and sends Axios API calls. Spring Boot handles REST APIs using) Tj
+T*
+(controller-service-repository architecture. MySQL stores users, providers, services,) Tj
+T*
+(bookings, payments, and ratings. JWT handles authentication, WebSocket handles real-time) Tj
+T*
+(updates, SMTP sends OTP emails, and Razorpay handles payment.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(## 5. Explain JWT In The Project) Tj
+T*
+() Tj
+T*
+(### Question) Tj
+T*
+() Tj
+T*
+(Explain JWT in the project. How is it used and what is the real working of it?) Tj
+T*
+() Tj
+T*
+(### Answer) Tj
+T*
+() Tj
+T*
+(JWT is used as a signed login token. After successful login, the backend gives a token to) Tj
+T*
+(the frontend. The frontend sends this token with every protected API request.) Tj
+T*
+() Tj
+T*
+(### JWT Login Flow) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(User enters email and password) Tj
+T*
+(    |) Tj
+T*
+(Frontend calls POST /api/auth/login) Tj
+T*
+(    |) Tj
+T*
+(AuthController validates credentials) Tj
+T*
+(    |) Tj
+T*
+(JwtUtils generates token) Tj
+T*
+(    |) Tj
+T*
+(Frontend stores token in localStorage) Tj
+T*
+(    |) Tj
+T*
+(Every protected request sends Authorization: Bearer <token>) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### JWT Content) Tj
+T*
+() Tj
+T*
+(In the project, token is generated using:) Tj
+T*
+() Tj
+T*
+(```java) Tj
+T*
+(jwtUtils.generateToken\(user.getEmail\(\), user.getId\(\), user.getRole\(\)\);) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(The token contains:) Tj
+T*
+() Tj
+T*
+(```json) Tj
+T*
+({) Tj
+T*
+(  "sub": "user@email.com",) Tj
+T*
+(  "user_id": 5,) Tj
+T*
+ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 12 0 R >>
+endobj
+14 0 obj
+<< /Length 1835 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+(  "role": "CUSTOMER",) Tj
+T*
+(  "iat": "issued time",) Tj
+T*
+(  "exp": "expiry time") Tj
+T*
+(}) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### Frontend Usage) Tj
+T*
+() Tj
+T*
+(In `utils/api.js`, Axios adds the token:) Tj
+T*
+() Tj
+T*
+(```js) Tj
+T*
+(config.headers.Authorization = `Bearer ${token}`;) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### Backend Validation) Tj
+T*
+() Tj
+T*
+(`CustomJwtFilter`:) Tj
+T*
+() Tj
+T*
+(- Reads the `Authorization` header.) Tj
+T*
+(- Extracts the token after `Bearer`.) Tj
+T*
+(- Extracts email from token.) Tj
+T*
+(- Loads user from database.) Tj
+T*
+(- Validates token signature and expiry.) Tj
+T*
+(- Sets authentication in Spring Security context.) Tj
+T*
+() Tj
+T*
+(### Role Authorization) Tj
+T*
+() Tj
+T*
+(`SecurityConfiguration` protects APIs:) Tj
+T*
+() Tj
+T*
+(```java) Tj
+T*
+(.requestMatchers\("/api/admin/**"\).hasRole\("ADMIN"\)) Tj
+T*
+(.requestMatchers\("/api/customer/**"\).hasRole\("CUSTOMER"\)) Tj
+T*
+(.requestMatchers\("/api/provider/**"\).hasRole\("SERVICEPROVIDER"\)) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### Short Interview Answer) Tj
+T*
+() Tj
+T*
+(JWT is used for stateless authentication. After login, the backend generates a signed token) Tj
+T*
+(containing email, user id, role, issue time, and expiry. The frontend stores it and sends it) Tj
+T*
+(in the Authorization header. The backend validates it in a custom JWT filter and Spring) Tj
+T*
+(Security uses the role to protect admin, customer, and provider APIs.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(## 6. Explain Razorpay API In The Project) Tj
+T*
+() Tj
+T*
+(### Question) Tj
+T*
+() Tj
+T*
+(Explain Razorpay API used in the project. How is it used and where?) Tj
+T*
+() Tj
+T*
+(### Answer) Tj
+T*
+() Tj
+T*
+(Razorpay is used for online payment after service completion.) Tj
+T*
+() Tj
+T*
+(Main files:) Tj
+T*
+() Tj
+T*
+(- Frontend: `src/api/payment.js`) Tj
+T*
+ET
+endstream
+endobj
+15 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 14 0 R >>
+endobj
+16 0 obj
+<< /Length 1598 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+(- Frontend: `CustomerDashboard.jsx`) Tj
+T*
+(- Backend: `PaymentController.java`) Tj
+T*
+(- Backend: `PaymentService.java`) Tj
+T*
+(- Config: `application.properties`) Tj
+T*
+() Tj
+T*
+(### Payment Flow) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(Customer clicks Pay) Tj
+T*
+(    |) Tj
+T*
+(Frontend calls POST /api/payment/create-order/{assignmentId}) Tj
+T*
+(    |) Tj
+T*
+(Backend creates Razorpay order) Tj
+T*
+(    |) Tj
+T*
+(Backend saves payment as PENDING) Tj
+T*
+(    |) Tj
+T*
+(Frontend opens Razorpay checkout popup) Tj
+T*
+(    |) Tj
+T*
+(Customer completes payment) Tj
+T*
+(    |) Tj
+T*
+(Razorpay returns order id, payment id, signature) Tj
+T*
+(    |) Tj
+T*
+(Frontend calls POST /api/payment/verify) Tj
+T*
+(    |) Tj
+T*
+(Backend marks payment completed and request paid) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### Backend Order Creation) Tj
+T*
+() Tj
+T*
+(`PaymentService` creates Razorpay client:) Tj
+T*
+() Tj
+T*
+(```java) Tj
+T*
+(RazorpayClient razorpay = new RazorpayClient\(razorpayKeyId, razorpayKeySecret\);) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(It creates an order:) Tj
+T*
+() Tj
+T*
+(```java) Tj
+T*
+(orderRequest.put\("amount", amount.multiply\(new BigDecimal\(100\)\).intValue\(\)\);) Tj
+T*
+(orderRequest.put\("currency", "INR"\);) Tj
+T*
+(Order order = razorpay.orders.create\(orderRequest\);) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(Razorpay expects amount in paise, so INR amount is multiplied by 100.) Tj
+T*
+() Tj
+T*
+(### Frontend Checkout) Tj
+T*
+() Tj
+T*
+(Frontend receives:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(orderId) Tj
+T*
+(amount) Tj
+T*
+(keyId) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(Then it opens:) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+17 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 16 0 R >>
+endobj
+18 0 obj
+<< /Length 1870 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+(```js) Tj
+T*
+(const rzp = new window.Razorpay\(options\);) Tj
+T*
+(rzp.open\(\);) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### Important Note) Tj
+T*
+() Tj
+T*
+(The Spring Boot version currently marks payment completed after receiving payment details.) Tj
+T*
+(For production, Razorpay signature should be verified using HMAC with the Razorpay secret.) Tj
+T*
+(The .NET backend already contains signature verification logic.) Tj
+T*
+() Tj
+T*
+(### Short Interview Answer) Tj
+T*
+() Tj
+T*
+(Razorpay is integrated for online service payment. The backend creates a Razorpay order and) Tj
+T*
+(stores a pending payment record. The frontend opens Razorpay checkout. After payment,) Tj
+T*
+(Razorpay returns payment details, which frontend sends to the backend. The backend updates) Tj
+T*
+(the payment status and marks the service request as paid.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(## 7. Explain OTP In The Project) Tj
+T*
+() Tj
+T*
+(### Question) Tj
+T*
+() Tj
+T*
+(Explain OTP in your project. How is it generated and how does it verify whether it is) Tj
+T*
+(correct or not?) Tj
+T*
+() Tj
+T*
+(### Answer) Tj
+T*
+() Tj
+T*
+(OTP is used to verify that the service provider has actually reached the customer before) Tj
+T*
+(starting the service.) Tj
+T*
+() Tj
+T*
+(### Where OTP Is Stored) Tj
+T*
+() Tj
+T*
+(OTP is stored in `ServiceAssignment`:) Tj
+T*
+() Tj
+T*
+(```java) Tj
+T*
+(@Column\(name = "otp"\)) Tj
+T*
+(private String otp;) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### OTP Generation) Tj
+T*
+() Tj
+T*
+(When a customer books a service, backend creates a service assignment and generates OTP:) Tj
+T*
+() Tj
+T*
+(```java) Tj
+T*
+(.otp\(String.format\("%04d", new java.util.Random\(\).nextInt\(10000\)\)\)) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(This creates a 4-digit OTP:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(7    -> 0007) Tj
+T*
+(45   -> 0045) Tj
+T*
+(583  -> 0583) Tj
+T*
+(9821 -> 9821) Tj
+T*
+(```) Tj
+T*
+ET
+endstream
+endobj
+19 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 18 0 R >>
+endobj
+20 0 obj
+<< /Length 1576 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+() Tj
+T*
+(### OTP Delivery) Tj
+T*
+() Tj
+T*
+(The backend sends OTP to customer email using SMTP:) Tj
+T*
+() Tj
+T*
+(```java) Tj
+T*
+(emailService.sendOtpEmail\() Tj
+T*
+(    customerUser.getEmail\(\),) Tj
+T*
+(    savedAssignment.getOtp\(\),) Tj
+T*
+(    providerUser.getName\(\),) Tj
+T*
+(    serviceName) Tj
+T*
+(\);) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### OTP Verification) Tj
+T*
+() Tj
+T*
+(Provider enters OTP in provider dashboard. Frontend calls:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(POST /api/provider/assignment/{assignmentId}/start) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(Backend sanitizes OTP:) Tj
+T*
+() Tj
+T*
+(```java) Tj
+T*
+(String otp = otpPayload.replaceAll\("\\\\D", ""\);) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(Then `ProviderService` compares entered OTP with stored OTP:) Tj
+T*
+() Tj
+T*
+(```java) Tj
+T*
+(if \(assignment.getOtp\(\) == null || !assignment.getOtp\(\).equals\(otp\)\) {) Tj
+T*
+(    throw new RuntimeException\("Invalid OTP"\);) Tj
+T*
+(}) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(If OTP matches:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(ACCEPTED -> STARTED) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(If OTP is wrong:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(Invalid OTP) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### Short Interview Answer) Tj
+T*
+() Tj
+T*
+(OTP is generated during service assignment, sent to the customer by email, stored in the) Tj
+T*
+(database, and verified when the provider starts the job. The backend compares the) Tj
+T*
+(provider-entered OTP with the stored OTP. If it matches, the service status becomes STARTED;) Tj
+T*
+(otherwise it returns Invalid OTP.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+21 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 20 0 R >>
+endobj
+22 0 obj
+<< /Length 1716 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+(## 8. Explain SMTP Used In The Project) Tj
+T*
+() Tj
+T*
+(### Question) Tj
+T*
+() Tj
+T*
+(Explain SMTP used in the project.) Tj
+T*
+() Tj
+T*
+(### Answer) Tj
+T*
+() Tj
+T*
+(SMTP stands for Simple Mail Transfer Protocol. It is used to send emails from the) Tj
+T*
+(application to users.) Tj
+T*
+() Tj
+T*
+(In LifeSamadhan, SMTP is used to send service OTP emails to customers.) Tj
+T*
+() Tj
+T*
+(### SMTP Configuration) Tj
+T*
+() Tj
+T*
+(In `application.properties`:) Tj
+T*
+() Tj
+T*
+(```properties) Tj
+T*
+(spring.mail.host=smtp.gmail.com) Tj
+T*
+(spring.mail.port=587) Tj
+T*
+(spring.mail.username=<sender-email>) Tj
+T*
+(spring.mail.password=<app-password>) Tj
+T*
+(spring.mail.properties.mail.smtp.auth=true) Tj
+T*
+(spring.mail.properties.mail.smtp.starttls.enable=true) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(Meaning:) Tj
+T*
+() Tj
+T*
+(- `smtp.gmail.com`: Gmail SMTP server.) Tj
+T*
+(- `587`: SMTP TLS port.) Tj
+T*
+(- `username`: sender email.) Tj
+T*
+(- `password`: Gmail app password.) Tj
+T*
+(- `smtp.auth=true`: authentication is required.) Tj
+T*
+(- `starttls.enable=true`: secure mail transfer is enabled.) Tj
+T*
+() Tj
+T*
+(### Code Usage) Tj
+T*
+() Tj
+T*
+(`EmailService` uses Spring Boot `JavaMailSender`:) Tj
+T*
+() Tj
+T*
+(```java) Tj
+T*
+(private final JavaMailSender mailSender;) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(It builds and sends the email:) Tj
+T*
+() Tj
+T*
+(```java) Tj
+T*
+(SimpleMailMessage message = new SimpleMailMessage\(\);) Tj
+T*
+(message.setFrom\(fromEmail\);) Tj
+T*
+(message.setTo\(toEmail\);) Tj
+T*
+(message.setSubject\("Your Service OTP - LifeSamadhan"\);) Tj
+T*
+(message.setText\("OTP: " + otp\);) Tj
+T*
+(mailSender.send\(message\);) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### Flow) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+ET
+endstream
+endobj
+23 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 22 0 R >>
+endobj
+24 0 obj
+<< /Length 1644 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+(Customer books service) Tj
+T*
+(    |) Tj
+T*
+(Backend creates assignment) Tj
+T*
+(    |) Tj
+T*
+(OTP is generated) Tj
+T*
+(    |) Tj
+T*
+(EmailService.sendOtpEmail\(\) is called) Tj
+T*
+(    |) Tj
+T*
+(JavaMailSender connects to Gmail SMTP) Tj
+T*
+(    |) Tj
+T*
+(OTP email is sent to customer) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### Short Interview Answer) Tj
+T*
+() Tj
+T*
+(SMTP is used in LifeSamadhan to send OTP emails to customers. Spring Boot reads SMTP) Tj
+T*
+(configuration from `application.properties`, creates `JavaMailSender`, and `EmailService`) Tj
+T*
+(uses it to send the OTP through Gmail SMTP.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(## 9. Is SMTP Built Into Spring Boot Like .NET?) Tj
+T*
+() Tj
+T*
+(### Question) Tj
+T*
+() Tj
+T*
+(Does this mean SMTP is an inbuilt feature of Spring Boot for sending mail, like in .NET?) Tj
+T*
+() Tj
+T*
+(### Answer) Tj
+T*
+() Tj
+T*
+(SMTP itself is not a Spring Boot feature. SMTP is a general email-sending protocol.) Tj
+T*
+() Tj
+T*
+(Spring Boot provides built-in support to use SMTP easily through:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(spring-boot-starter-mail) Tj
+T*
+(JavaMailSender) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(In the project, the dependency is:) Tj
+T*
+() Tj
+T*
+(```xml) Tj
+T*
+(<dependency>) Tj
+T*
+(    <groupId>org.springframework.boot</groupId>) Tj
+T*
+(    <artifactId>spring-boot-starter-mail</artifactId>) Tj
+T*
+(</dependency>) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(Spring Boot reads:) Tj
+T*
+() Tj
+T*
+(```properties) Tj
+T*
+(spring.mail.host) Tj
+T*
+(spring.mail.port) Tj
+T*
+(spring.mail.username) Tj
+T*
+(spring.mail.password) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(and configures `JavaMailSender`.) Tj
+T*
+ET
+endstream
+endobj
+25 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 24 0 R >>
+endobj
+26 0 obj
+<< /Length 1784 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+() Tj
+T*
+(In ASP.NET Core, similar work can be done with:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(System.Net.Mail.SmtpClient) Tj
+T*
+(MailKit) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### Short Interview Answer) Tj
+T*
+() Tj
+T*
+(SMTP is not specific to Spring Boot or .NET. It is a standard email protocol. Spring Boot) Tj
+T*
+(provides built-in mail support using `spring-boot-starter-mail` and `JavaMailSender`, just) Tj
+T*
+(like .NET can send mail using `SmtpClient` or MailKit.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(## 10. How To Handle 150 Requests At A Time?) Tj
+T*
+() Tj
+T*
+(### Question) Tj
+T*
+() Tj
+T*
+(If asked that we have to handle 150 requests at a time, how can we handle it for this) Tj
+T*
+(project?) Tj
+T*
+() Tj
+T*
+(### Answer) Tj
+T*
+() Tj
+T*
+(For 150 concurrent requests, LifeSamadhan can handle it by using:) Tj
+T*
+() Tj
+T*
+(- Spring Boot Tomcat thread tuning.) Tj
+T*
+(- HikariCP database connection pooling.) Tj
+T*
+(- Optimized MySQL queries.) Tj
+T*
+(- JWT stateless authentication.) Tj
+T*
+(- Async email sending.) Tj
+T*
+(- Proper indexes.) Tj
+T*
+(- Load testing.) Tj
+T*
+() Tj
+T*
+(### Tomcat Thread Tuning) Tj
+T*
+() Tj
+T*
+(Add in `application.properties`:) Tj
+T*
+() Tj
+T*
+(```properties) Tj
+T*
+(server.tomcat.threads.max=200) Tj
+T*
+(server.tomcat.threads.min-spare=20) Tj
+T*
+(server.tomcat.accept-count=100) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### Database Connection Pool) Tj
+T*
+() Tj
+T*
+(Spring Boot uses HikariCP by default.) Tj
+T*
+() Tj
+T*
+(```properties) Tj
+T*
+(spring.datasource.hikari.maximum-pool-size=30) Tj
+T*
+(spring.datasource.hikari.minimum-idle=10) Tj
+T*
+(spring.datasource.hikari.connection-timeout=30000) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(150 requests do not require 150 database connections. Short requests reuse connections from) Tj
+T*
+(the pool.) Tj
+T*
+ET
+endstream
+endobj
+27 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 26 0 R >>
+endobj
+28 0 obj
+<< /Length 2029 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+() Tj
+T*
+(### Why JWT Helps) Tj
+T*
+() Tj
+T*
+(JWT is stateless:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(No server-side session) Tj
+T*
+(No login state stored in backend memory) Tj
+T*
+(Any backend instance can validate the token) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(This makes horizontal scaling easier.) Tj
+T*
+() Tj
+T*
+(### Short Interview Answer) Tj
+T*
+() Tj
+T*
+(For 150 concurrent requests, I would tune Tomcat threads, use HikariCP connection pooling,) Tj
+T*
+(add database indexes, make email sending asynchronous, and test using JMeter or k6. Since) Tj
+T*
+(our project uses JWT, it is stateless and can also be scaled horizontally behind a load) Tj
+T*
+(balancer.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(## 11. Maximum Requests Spring Boot Can Handle Alone) Tj
+T*
+() Tj
+T*
+(### Question) Tj
+T*
+() Tj
+T*
+(Maximum how many requests can Spring Boot handle alone?) Tj
+T*
+() Tj
+T*
+(### Answer) Tj
+T*
+() Tj
+T*
+(There is no fixed maximum. It depends on:) Tj
+T*
+() Tj
+T*
+(- CPU and RAM.) Tj
+T*
+(- API logic.) Tj
+T*
+(- Database speed.) Tj
+T*
+(- Number of DB connections.) Tj
+T*
+(- External calls such as SMTP and Razorpay.) Tj
+T*
+(- Tomcat thread pool.) Tj
+T*
+(- Query optimization.) Tj
+T*
+() Tj
+T*
+(By default, Spring Boot uses embedded Tomcat with a request thread pool. A common default) Tj
+T*
+(maximum is around 200 worker threads, but this does not mean the app can complete unlimited) Tj
+T*
+(requests quickly. If database pool has only 10 connections, DB-heavy APIs may wait.) Tj
+T*
+() Tj
+T*
+(### Short Interview Answer) Tj
+T*
+() Tj
+T*
+(A single Spring Boot instance can usually handle hundreds of concurrent requests if APIs are) Tj
+T*
+(optimized, but the exact number depends on hardware, database, and response time. In) Tj
+T*
+(LifeSamadhan, the bottleneck may be MySQL, SMTP, or Razorpay, not Spring Boot itself.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(## 12. Approximate Requests By Server Hardware) Tj
+T*
+() Tj
+T*
+(### Question) Tj
+T*
+() Tj
+T*
+(Give approximate values of requests per server hardware size.) Tj
+T*
+ET
+endstream
+endobj
+29 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 28 0 R >>
+endobj
+30 0 obj
+<< /Length 2099 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+() Tj
+T*
+(### Answer) Tj
+T*
+() Tj
+T*
+(For a normal Spring Boot + MySQL CRUD project like LifeSamadhan, approximate values are:) Tj
+T*
+() Tj
+T*
+(| Server Size | Approx Concurrent Requests | Approx Requests Per Second |) Tj
+T*
+(|---|---:|---:|) Tj
+T*
+(| 1 vCPU, 1-2 GB RAM | 20-50 | 20-80 RPS |) Tj
+T*
+(| 2 vCPU, 4 GB RAM | 80-150 | 80-200 RPS |) Tj
+T*
+(| 4 vCPU, 8 GB RAM | 200-500 | 200-600 RPS |) Tj
+T*
+(| 8 vCPU, 16 GB RAM | 500-1000+ | 600-1500 RPS |) Tj
+T*
+(| 16 vCPU, 32 GB RAM | 1000-3000+ | 1500-4000+ RPS |) Tj
+T*
+() Tj
+T*
+(These are rough estimates. Exact values must be verified using load testing.) Tj
+T*
+() Tj
+T*
+(### For LifeSamadhan) Tj
+T*
+() Tj
+T*
+(Because the project uses MySQL, JWT, SMTP, Razorpay, and WebSocket:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(2 vCPU / 4 GB RAM) Tj
+T*
+(    -> around 100 to 150 concurrent requests) Tj
+T*
+() Tj
+T*
+(4 vCPU / 8 GB RAM) Tj
+T*
+(    -> around 200 to 500 concurrent requests) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(If average response time is 500 ms:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(150 concurrent requests = about 300 requests per second) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### Short Interview Answer) Tj
+T*
+() Tj
+T*
+(A 2 vCPU and 4 GB RAM server can approximately handle 100 to 150 concurrent requests for) Tj
+T*
+(this project if optimized. A 4 vCPU and 8 GB RAM server can approximately handle 200 to 500) Tj
+T*
+(concurrent requests. Exact numbers should be confirmed through JMeter or k6 load testing.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(## 13. How To Handle More Than 1000 Requests Per Second?) Tj
+T*
+() Tj
+T*
+(### Question) Tj
+T*
+() Tj
+T*
+(If I have 4 vCPU and 8 GB RAM and more than 1000 requests per second come, how can we handle) Tj
+T*
+(it in our project? What do we have to add and where?) Tj
+T*
+() Tj
+T*
+(### Answer) Tj
+T*
+() Tj
+T*
+(For more than 1000 requests per second, one 4 vCPU / 8 GB RAM Spring Boot server is usually) Tj
+T*
+(not enough for this project. We should use horizontal scaling and supporting infrastructure.) Tj
+T*
+() Tj
+T*
+(### Main Strategy) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(Nginx / Load Balancer) Tj
+T*
+ET
+endstream
+endobj
+31 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 30 0 R >>
+endobj
+32 0 obj
+<< /Length 1602 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+(        |) Tj
+T*
+(  -----------------) Tj
+T*
+(  |       |       |) Tj
+T*
+(App 1   App 2   App 3) Tj
+T*
+(        |) Tj
+T*
+(      MySQL) Tj
+T*
+(        |) Tj
+T*
+(      Redis) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(Because authentication is JWT-based and stateless, any backend instance can validate the) Tj
+T*
+(token.) Tj
+T*
+() Tj
+T*
+(### 1. Tune Tomcat) Tj
+T*
+() Tj
+T*
+(Add in `application.properties`:) Tj
+T*
+() Tj
+T*
+(```properties) Tj
+T*
+(server.tomcat.threads.max=300) Tj
+T*
+(server.tomcat.threads.min-spare=50) Tj
+T*
+(server.tomcat.accept-count=500) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### 2. Tune HikariCP) Tj
+T*
+() Tj
+T*
+(Add in `application.properties`:) Tj
+T*
+() Tj
+T*
+(```properties) Tj
+T*
+(spring.datasource.hikari.maximum-pool-size=40) Tj
+T*
+(spring.datasource.hikari.minimum-idle=10) Tj
+T*
+(spring.datasource.hikari.connection-timeout=30000) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(Do not increase DB connections blindly. The database server must also be able to handle) Tj
+T*
+(them.) Tj
+T*
+() Tj
+T*
+(### 3. Make Email Async) Tj
+T*
+() Tj
+T*
+(Email sending is slow because SMTP is an external service.) Tj
+T*
+() Tj
+T*
+(Add async support in `LifeSamadhanApiApplication.java`:) Tj
+T*
+() Tj
+T*
+(```java) Tj
+T*
+(@SpringBootApplication) Tj
+T*
+(@EnableScheduling) Tj
+T*
+(@EnableAsync) Tj
+T*
+(public class LifeSamadhanApiApplication {) Tj
+T*
+(}) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(Then in `EmailService.java`:) Tj
+T*
+() Tj
+T*
+(```java) Tj
+T*
+(@Async) Tj
+T*
+(public void sendOtpEmail\(String toEmail, String otp, String providerName, String) Tj
+T*
+(serviceName\) {) Tj
+T*
+(    // email sending code) Tj
+T*
+ET
+endstream
+endobj
+33 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 32 0 R >>
+endobj
+34 0 obj
+<< /Length 1426 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+(}) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(This prevents booking APIs from waiting for SMTP.) Tj
+T*
+() Tj
+T*
+(### 4. Add Cache) Tj
+T*
+() Tj
+T*
+(Cache data that changes rarely:) Tj
+T*
+() Tj
+T*
+(- Categories) Tj
+T*
+(- Services) Tj
+T*
+(- Locations) Tj
+T*
+(- Provider types) Tj
+T*
+() Tj
+T*
+(Add dependency:) Tj
+T*
+() Tj
+T*
+(```xml) Tj
+T*
+(<dependency>) Tj
+T*
+(    <groupId>org.springframework.boot</groupId>) Tj
+T*
+(    <artifactId>spring-boot-starter-cache</artifactId>) Tj
+T*
+(</dependency>) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(Enable caching:) Tj
+T*
+() Tj
+T*
+(```java) Tj
+T*
+(@EnableCaching) Tj
+T*
+(@SpringBootApplication) Tj
+T*
+(public class LifeSamadhanApiApplication {) Tj
+T*
+(}) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(Example:) Tj
+T*
+() Tj
+T*
+(```java) Tj
+T*
+(@Cacheable\("locations"\)) Tj
+T*
+(public List<Location> getAllLocations\(\) {) Tj
+T*
+(    return locationRepository.findAll\(\);) Tj
+T*
+(}) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(For production, Redis is better than in-memory cache.) Tj
+T*
+() Tj
+T*
+(### 5. Add Database Indexes) Tj
+T*
+() Tj
+T*
+(Add indexes on frequently searched columns:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(users.email) Tj
+T*
+(users.role) Tj
+T*
+(service_assignments.provider_id) Tj
+T*
+(service_assignments.status) Tj
+T*
+(service_requests.customer_id) Tj
+T*
+(service_requests.status) Tj
+T*
+(provider_locations.location_id) Tj
+T*
+(provider_skills.service_id) Tj
+T*
+(service_providers.service_category_id) Tj
+T*
+ET
+endstream
+endobj
+35 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 34 0 R >>
+endobj
+36 0 obj
+<< /Length 1799 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+(```) Tj
+T*
+() Tj
+T*
+(This is important for login, dashboard, provider search, and assignment APIs.) Tj
+T*
+() Tj
+T*
+(### 6. Use Queue For Heavy Work) Tj
+T*
+() Tj
+T*
+(Move slow background tasks to queue:) Tj
+T*
+() Tj
+T*
+(- OTP email) Tj
+T*
+(- Notifications) Tj
+T*
+(- Payment post-processing) Tj
+T*
+() Tj
+T*
+(Possible tools:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(RabbitMQ) Tj
+T*
+(Kafka) Tj
+T*
+(Redis Queue) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(### 7. Load Testing) Tj
+T*
+() Tj
+T*
+(Use:) Tj
+T*
+() Tj
+T*
+(```text) Tj
+T*
+(JMeter) Tj
+T*
+(k6) Tj
+T*
+(Postman Runner) Tj
+T*
+(```) Tj
+T*
+() Tj
+T*
+(Measure:) Tj
+T*
+() Tj
+T*
+(- Response time.) Tj
+T*
+(- Error rate.) Tj
+T*
+(- CPU usage.) Tj
+T*
+(- Memory usage.) Tj
+T*
+(- DB connection usage.) Tj
+T*
+(- Slow queries.) Tj
+T*
+() Tj
+T*
+(### Short Interview Answer) Tj
+T*
+() Tj
+T*
+(For more than 1000 requests per second, I would not depend on one Spring Boot server. I) Tj
+T*
+(would run multiple Spring Boot instances behind a load balancer, move MySQL to a separate) Tj
+T*
+(optimized server, add Redis caching, make SMTP and notifications async or queue-based, tune) Tj
+T*
+(Tomcat and HikariCP, add database indexes, and verify capacity using JMeter or k6.) Tj
+T*
+() Tj
+T*
+(---) Tj
+T*
+() Tj
+T*
+(## Quick Final Summary) Tj
+T*
+() Tj
+T*
+(LifeSamadhan is a role-based local service booking system. The frontend is built with React.) Tj
+T*
+(The backend is implemented in Spring Boot and also in .NET. JWT secures APIs, Razorpay) Tj
+T*
+(handles payments, OTP verifies service start, SMTP sends OTP emails, and WebSocket/SignalR) Tj
+T*
+(handles real-time notifications. For scalability, the project can use thread tuning, DB) Tj
+T*
+(pooling, indexes, caching, async processing, queues, and horizontal scaling behind a load) Tj
+T*
+(balancer.) Tj
+T*
+() Tj
+T*
+ET
+endstream
+endobj
+37 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 36 0 R >>
+endobj
+38 0 obj
+<< /Length 39 >>
+stream
+BT
+/F1 9 Tf
+12 TL
+48 760 Td
+() Tj
+T*
+ET
+endstream
+endobj
+39 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 38 0 R >>
+endobj
+xref
+0 40
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000233 00000 n 
+0000000303 00000 n 
+0000002764 00000 n 
+0000002890 00000 n 
+0000005376 00000 n 
+0000005502 00000 n 
+0000007850 00000 n 
+0000007976 00000 n 
+0000009517 00000 n 
+0000009645 00000 n 
+0000011578 00000 n 
+0000011706 00000 n 
+0000013594 00000 n 
+0000013722 00000 n 
+0000015373 00000 n 
+0000015501 00000 n 
+0000017424 00000 n 
+0000017552 00000 n 
+0000019181 00000 n 
+0000019309 00000 n 
+0000021078 00000 n 
+0000021206 00000 n 
+0000022903 00000 n 
+0000023031 00000 n 
+0000024868 00000 n 
+0000024996 00000 n 
+0000027078 00000 n 
+0000027206 00000 n 
+0000029358 00000 n 
+0000029486 00000 n 
+0000031141 00000 n 
+0000031269 00000 n 
+0000032748 00000 n 
+0000032876 00000 n 
+0000034728 00000 n 
+0000034856 00000 n 
+0000034946 00000 n 
+trailer
+<< /Size 40 /Root 1 0 R >>
+startxref
+35074
+%%EOF
