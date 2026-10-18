@@ -262,3 +262,31 @@ Executed automated test suite `scratch/test_maharashtrian_records.ps1`:
 - **Status**: Successfully pushed with clean sanitized history.
 - **Verification**: Remote branch inspected. No `.env`, `application-local.properties`, `appsettings.Development.json`, `target/`, or `bin/` files exist on GitHub. All personal passwords and secrets are completely replaced with environment variable bindings.
 
+---
+
+## 15. Oracle Cloud Infrastructure (OCI) Native Hosting & Verification
+
+### Status: LIVE & HOSTED
+- **Instance**: Dedicated Always Free VM `lifesamadhan-backend`
+  - **Public IP**: `137.23.57.50`
+  - **Private IP**: `10.0.0.76`
+  - **OS**: Ubuntu 24.04 LTS (AArch64 / x86_64)
+- **Database Service**: Native MySQL Server (`mysql-server`) running on `localhost:3306`
+  - Database: `lifesamadhan_spring`
+  - Fully initialized and seeded with 23 locations (Mumbai & Navi Mumbai), 8 Maharashtrian providers, and 6 Maharashtrian customers.
+- **Backend Service**: Native Spring Boot service managed by systemd (`/etc/systemd/system/lifesamadhan.service`)
+  - Status: `active (running)` (auto-starts on boot)
+  - Memory: Configured with 2 GB Swap space (`/swapfile`) to maintain stability under 1 GB RAM
+  - Server Port: `8080`
+- **End-to-End Live Runtime Test Results**:
+  1. `GET /api/public/locations`: Returned 23 seeded locations [PASSED]
+  2. `POST /api/auth/login` (Customer `aniket.kulkarni@mail.com`): HTTP 200 OK with valid JWT [PASSED]
+  3. `GET /api/customer/profile`: Loaded Dadar West, Mumbai address with Bearer JWT [PASSED]
+  4. `POST /api/auth/login` (Provider `sachin.deshmukh@mail.com`): HTTP 200 OK with valid JWT [PASSED]
+  5. `GET /api/provider/me`: Loaded Plumber provider profile [PASSED]
+- **HTTPS Endpoint for Vercel (Runs 24/7 on Oracle Cloud VM, Laptop can be OFF)**:
+  - Tunnel Service: `cloudflared-tunnel.service` (Active, auto-starts on VM boot)
+  - **Live HTTPS URL**: `https://reputation-navy-canberra-dale.trycloudflare.com`
+  - **API Root**: `https://reputation-navy-canberra-dale.trycloudflare.com/api`
+  - **WebSocket URL**: `https://reputation-navy-canberra-dale.trycloudflare.com/ws`
+

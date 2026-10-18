@@ -143,69 +143,6 @@ const Login = () => {
           </button>
         </form>
 
-        <div className="demo-accounts-section" style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px dashed #e2e8f0' }}>
-          <p style={{ fontSize: '0.85rem', fontWeight: 600, color: '#64748b', marginBottom: '0.6rem', textAlign: 'center' }}>
-            ⚡ Quick Demo Logins (Click to Autofill):
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.5rem' }}>
-            <button
-              type="button"
-              className="btn btn-outline"
-              style={{ fontSize: '0.78rem', padding: '0.45rem', border: '1px solid #cbd5e1', borderRadius: '6px', background: '#f8fafc', cursor: 'pointer' }}
-              onClick={() => {
-                setFormData({ email: 'admin@mail.com', password: 'Admin@LifeSamadan123' });
-                setErrors({});
-              }}
-            >
-              👑 Admin
-            </button>
-            <button
-              type="button"
-              className="btn btn-outline"
-              style={{ fontSize: '0.78rem', padding: '0.45rem', border: '1px solid #cbd5e1', borderRadius: '6px', background: '#f8fafc', cursor: 'pointer' }}
-              onClick={() => {
-                setFormData({ email: 'sachin.deshmukh@mail.com', password: 'Provider@123' });
-                setErrors({});
-              }}
-            >
-              🔧 Plumber (Mumbai)
-            </button>
-            <button
-              type="button"
-              className="btn btn-outline"
-              style={{ fontSize: '0.78rem', padding: '0.45rem', border: '1px solid #cbd5e1', borderRadius: '6px', background: '#f8fafc', cursor: 'pointer' }}
-              onClick={() => {
-                setFormData({ email: 'ganesh.pawar@mail.com', password: 'Provider@123' });
-                setErrors({});
-              }}
-            >
-              ⚡ Electrician (Navi Mumbai)
-            </button>
-            <button
-              type="button"
-              className="btn btn-outline"
-              style={{ fontSize: '0.78rem', padding: '0.45rem', border: '1px solid #cbd5e1', borderRadius: '6px', background: '#f8fafc', cursor: 'pointer' }}
-              onClick={() => {
-                setFormData({ email: 'aniket.kulkarni@mail.com', password: 'Customer@123' });
-                setErrors({});
-              }}
-            >
-              🏠 Customer (Mumbai)
-            </button>
-            <button
-              type="button"
-              className="btn btn-outline"
-              style={{ fontSize: '0.78rem', padding: '0.45rem', border: '1px solid #cbd5e1', borderRadius: '6px', background: '#f8fafc', cursor: 'pointer' }}
-              onClick={() => {
-                setFormData({ email: 'pooja.salunkhe@mail.com', password: 'Customer@123' });
-                setErrors({});
-              }}
-            >
-              🏠 Customer (Navi Mumbai)
-            </button>
-          </div>
-        </div>
-
         <div className="auth-footer">
           <p>Don't have an account? <Link to="/register">Register here</Link></p>
         </div>
